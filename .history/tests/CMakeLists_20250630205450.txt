@@ -1,0 +1,26 @@
+# Минимальная конфигурация тестов
+find_package(Catch2 REQUIRED)
+
+# Подключаем исходники проекта, которые нужно тестировать
+set(GROB PROJECT_SOURCES "../src/*.cpp")
+s
+# Подключаем заголовки
+include_directories(
+    ../include
+    ${TAGLIB_INCLUDE_DIRS}
+)
+
+# Создаем один тестовый исполняемый файл
+add_executable(tests_runner 
+    test_main.cpp  # Основной файл с тестами
+    ${PROJECT_SOURCES}  # Исходники проекта
+)
+
+# Линковка
+target_link_libraries(tests_runner PRIVATE
+    Catch2::Catch2
+    ${TAGLIB_LIBRARIES}
+)
+
+# Добавляем тест в CTest
+add_test(NAME mp3organizer_tests COMMAND tests_runner)

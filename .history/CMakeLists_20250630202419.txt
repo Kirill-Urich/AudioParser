@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.10)
+project(mp3organizer)
+
+set(CMAKE_CXX_STANDARD 17)
+
+# Все исходники проекта (включая main.cpp)
+file(GLOB SOURCES "src/*.cpp")
+
+# Просто собираем исполняемый файл
+add_executable(mp3organizer ${SOURCES})
+ы
+# Подключаем TagLib
+find_package(Taglib REQUIRED)
+target_include_directories(mp3organizer PRIVATE ${TAGLIB_INCLUDE_DIRS})
+target_link_libraries(mp3organizer PRIVATE ${TAGLIB_LIBRARIES})
+
+# Подключаем заголовки
+target_include_directories(mp3organizer PUBLIC include)

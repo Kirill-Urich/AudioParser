@@ -1,0 +1,48 @@
+cmake_minimum_required(VERSION 3.10)
+project(mp3organizer LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Явное перечисление исходных файлов (без использования GLOB)
+set(SRC_FILES
+    src/constants.cpp
+    src/extractMainArtist.cpp
+    src/getMp3Files.cpp
+    src/isMp3File.cpp
+    src/main.cpp
+    src/setAlbums.cpp
+    src/processDirectory.cpp
+    src/processFile.cpp
+    src/setAlbums.cpp
+    src/setGenres.cpp
+    src/setArtistAlbums.cpp
+)
+
+# Настройка TagLib
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(TAGLIB REQUIRED taglib)
+
+# Сборка исполняемого файла
+add_executable(mp3organizer ${SRC_FILES})
+target_include_directories(mp3organizer PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${TAGLIB_INCLUDE_DIRS}
+)
+target_link_libraries(mp3organizer PRIVATE ${TAGLIB_LINK_LIBRARIES})
+
+
+# Настройка тестов (будет использована только если передана -DBUILD_TESTS=ON)
+option(BUILD_TESTS "Build tests" OFF)  # По умолчанию OFF
+
+if(BUILD_TESTS)
+    message(STATUS "Building tests")
+    enable_testing()
+    
+    # Проверяем существование директории tests
+    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tests)
+        add_subdirectory(tests)
+    else()
+        message(WARNING "Tests directory not found")
+    endif()
+endif()

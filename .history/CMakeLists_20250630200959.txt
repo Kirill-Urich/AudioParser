@@ -1,0 +1,75 @@
+# cmake_minimum_required(VERSION 3.10)
+# project(mp3organizer LANGUAGES CXX)
+
+# set(CMAKE_CXX_STANDARD 17)
+# set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# # Ручной поиск TagLib
+# find_path(TAGLIB_INCLUDE_DIR taglib/tag.h
+#           PATHS /usr/include /usr/local/include)
+          
+# find_library(TAGLIB_LIBRARY NAMES tag
+#              PATHS /usr/lib /usr/local/lib)
+
+# if(TAGLIB_INCLUDE_DIR AND TAGLIB_LIBRARY)
+#     message(STATUS "Found TagLib: ${TAGLIB_LIBRARY}")
+# else()
+#     message(FATAL_ERROR "TagLib not found! Tried paths: /usr/include/taglib, /usr/local/include/taglib")
+# endif()
+
+# # Основные исходники
+# file(GLOB SRC_FILES "src/*.cpp")
+
+# # Главный исполняемый файл
+# add_executable(mp3organizer ${SRC_FILES})
+# target_include_directories(mp3organizer PRIVATE 
+#     ${TAGLIB_INCLUDE_DIR}
+#     ${CMAKE_CURRENT_SOURCE_DIR}/include
+# )
+# target_link_libraries(mp3organizer PRIVATE ${TAGLIB_LIBRARY})
+
+cmake_minimum_required(VERSION 3.10)
+
+# Установка проекта (должно быть сразу после cmake_minimum_required)
+project(mp3organizer 
+    VERSION 1.0
+    DESCRIPTION "MP3 files organizer"
+    LANGUAGES CXX
+)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Настройка поиска TagLib
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(TAGLIB REQUIRED taglib)
+
+message(STATUS "TagLib includes: ${TAGLIB_INCLUDE_DIRS}")
+message(STATUS "TagLib libraries: ${TAGLIB_LINK_LIBRARIES}")
+
+# Основные исходные файлы
+file(GLOB SRC_FILES 
+    "src/*.cpp"
+    "include/*.h"
+)
+
+# Главный исполняемый файл
+add_executable(mp3organizer ${SRC_FILES})
+target_include_directories(mp3organizer PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${TAGLIB_INCLUDE_DIRS}
+)
+target_link_libraries(mp3organizer PRIVATE ${TAGLIB_LINK_LIBRARIES})
+
+# Настройка тестов
+option(BUILD_TESTS "Build tests" ON)
+if(BUILD_TESTS)
+    enable_testing()
+    
+    # Проверяем, существует ли директория tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests")
+        add_subdirectory(tests)
+    else()
+        message(WARNING "Tests directory not found - skipping tests")
+    endif()
+endif()

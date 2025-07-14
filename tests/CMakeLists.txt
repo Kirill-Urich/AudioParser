@@ -1,0 +1,28 @@
+# Минимальная конфигурация тестов
+find_package(Catch2 REQUIRED)
+
+# Находим все тестовые файлы
+set(GLOB TEST_SOURCES "*.cpp")
+
+# Для каждого тестового файла создаем отдельный исполняемый файл
+foreach(test_file ${TEST_SOURCES})
+    get_filename_component(test_name ${test_file} NAME_WE)
+    
+    # Создаем исполняемый файл для теста
+    add_executable(${test_name} ${test_file})
+    
+    # Подключаем заголовки
+    target_include_directories(${test_name} PRIVATE
+        ../include
+        ${TAGLIB_INCLUDE_DIRS}
+    )
+    
+    # Линковка
+    target_link_libraries(${test_name} PRIVATE
+        Catch2::Catch2WithMain
+        ${TAGLIB_LIBRARIES}
+    )
+    
+    # Добавляем тест в CTest
+    add_test(NAME ${test_name} COMMAND ${test_name})
+endforeach()

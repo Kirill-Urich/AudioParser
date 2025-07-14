@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.10)
+project(mp3organizer LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Настройка поиска TagLib
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(TAGLIB REQUIRED taglib>=1.11.1)
+
+message(STATUS "TagLib includes: ${TAGLIB_INCLUDE_DIRS}")
+message(STATUS "TagLib libraries: ${TAGLIB_LINK_LIBRARIES}")
+
+# Основные исходники
+set(GROB SRC_FILES "src/*.cpp")
+
+# Главный исполняемый файл
+add_executable(mp3organizer ${SRC_FILES})
+target_include_directories(mp3organizer PUBLIC 
+    include
+    ${TAGLIB_INCLUDE_DIRS}
+)
+target_link_libraries(mp3organizer PRIVATE 
+    ${TAGLIB_LINK_LIBRARIES}
+)
+target_compile_options(mp3organizer PRIVATE ${TAGLIB_CFLAGS_OTHER})

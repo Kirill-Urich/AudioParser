@@ -1,0 +1,41 @@
+# # Находим Catch2 (если не используется через find_package)
+# find_package(Catch2 REQUIRED)
+
+# # Тестовые исходники
+# file(GLOB TEST_SOURCES "*.cpp")
+
+# # Тестовый исполняемый файл
+# add_executable(mp3organizer_tests ${TEST_SOURCES} ../src/organizer.cpp)
+# target_include_directories(mp3organizer_tests PRIVATE
+#     ${TAGLIB_INCLUDE_DIRS}
+#     ${CMAKE_CURRENT_SOURCE_DIR}/../include
+# )
+# target_link_libraries(mp3organizer_tests PRIVATE
+#     TagLib::TagLib
+#     Catch2::Catch2
+# )
+
+# # Регистрируем тесты
+# add_test(NAME mp3organizer_tests COMMAND mp3organizer_tests)
+
+# Загрузка Catch2
+include(FetchContent)
+FetchContent_Declare(
+    Catch2
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+    GIT_TAG        v3.4.0
+)
+FetchContent_MakeAvailable(Catch2)
+
+# Автоматическое добавление тестов
+file(GLOB TEST_SOURCES "*.cpp")
+foreach(test_source ${TEST_SOURCES})
+    get_filename_component(test_name ${test_source} NAME_WE)
+    
+    add_executable(${test_name} ${test_source})
+    target_link_libraries(${test_name} PRIVATE
+        Catch2::Catch2WithMain
+        mp3organizer
+    )
+    add_test(NAME ${test_name} COMMAND ${test_name})
+endforeach()

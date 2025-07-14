@@ -1,0 +1,46 @@
+cmake_minimum_required(VERSION 3.10)
+project(mp3organizer LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Явное перечисление исходных файлов (без использования GLOB)
+set(SRC_FILES
+    src/main.cpp
+    src/setAlbums.cpp
+    src/processDirectory.cpp
+    src/file_processing.cpp
+    src/artist_processing.cpp
+    src/setGenres.cpp
+    src/constants.cpp
+    src/getMp3Files.cpp
+    src/isMp3File.cpp
+    src/extractMainArtist.cpp
+    src/processFile.cpp
+)
+
+# Проверка существования каждого файла
+foreach(file ${SRC_FILES})
+    if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${file})
+        message(WARNING "Source file not found: ${file}")
+        list(REMOVE_ITEM SRC_FILES ${file})
+    endif()
+endforeach()
+
+if(NOT SRC_FILES)
+    message(FATAL_ERROR "No valid source files found!")
+endif()
+
+# Настройка TagLib
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(TAGLIB REQUIRED taglib)
+
+message(STATUS "Found TagLib version: ${TAGLIB_VERSION}")
+
+# Сборка исполняемого файла
+add_executable(mp3organizer ${SRC_FILES})
+target_include_directories(mp3organizer PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${TAGLIB_INCLUDE_DIRS}
+)
+target_link_libraries(mp3organizer PRIVATE ${TAGLIB_LINK_LIBRARIES})
