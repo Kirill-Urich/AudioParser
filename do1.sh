@@ -40,7 +40,7 @@ cp -r "$SOURCE_DIR"/* "$TARGET_DIR" || {
 }
 
 # Сборка проекта
-color_echo green "Building project..."
+color_echo green "Building project...."
 [ -d "$BUILD_DIR" ] && { color_echo yellow "Removing old build directory"; rm -rf "$BUILD_DIR"; }
 
 mkdir -p "$BUILD_DIR"

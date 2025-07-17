@@ -55,7 +55,7 @@ create_playlists() {
 
 # Основной процесс
 validate_dir "$SOURCE_DIR"
-mkdir -p "$TARGET_DIR" || die "Не удалось создать $TARGET_DIR"
+mkdir -p "$TARGET_DIR" || die "Не удалось создать $TARGET_DIR."
 validate_dir "$TARGET_DIR"
 
 # Очистка и копирование
