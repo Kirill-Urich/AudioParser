@@ -1,3 +1,0 @@
-/home/kirill/Programming/mp3organizer/build/CMakeFiles/mp3organizer.dir
-/home/kirill/Programming/mp3organizer/build/CMakeFiles/edit_cache.dir
-/home/kirill/Programming/mp3organizer/build/CMakeFiles/rebuild_cache.dir
