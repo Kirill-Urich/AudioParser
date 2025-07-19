@@ -68,7 +68,7 @@ echo "Сборка проекта в $BUILD_DIR"
 mkdir -p "$BUILD_DIR"
 
 cd "$BUILD_DIR" || die "Ошибка входа в $BUILD_DIR"
-cmake .. -DCMAKE_BUILD_TYPE=Release || die "Ошибка cmake"
+cmake .. -DCMAKE_BUILD_TYPE=Release || die "Ошибка cmake."
 make -j$(nproc) || die "Ошибка сборки"
 
 # Запуск организатора
