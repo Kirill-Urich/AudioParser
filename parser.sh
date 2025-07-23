@@ -5,8 +5,8 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # Конфигурация
-SOURCE_DIR="/home/kirill/Programming/Music1"
-TARGET_DIR="/home/kirill/Programming/Music2"
+SOURCE_DIR="/home/kirill/Music/Music1"
+TARGET_DIR="/home/kirill/Music/Music2"
 BUILD_DIR="$(pwd)/build"
 PROJECT_NAME="mp3organizer"
 CMUS_DIR="$HOME/.config/cmus"
@@ -59,8 +59,8 @@ mkdir -p "$TARGET_DIR" || die "Не удалось создать $TARGET_DIR."
 validate_dir "$TARGET_DIR"
 
 # Очистка и копирование
-echo "Очистка $TARGET_DIR и копирование файлов"
-rsync -a --delete --exclude=".*" "$SOURCE_DIR/" "$TARGET_DIR/"
+ echo "Очистка $TARGET_DIR и копирование файлов"
+ rsync -a --delete --exclude=".*" "$SOURCE_DIR/" "$TARGET_DIR/"
 
 # Сборка проекта
 echo "Сборка проекта в $BUILD_DIR"
