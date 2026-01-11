@@ -5,8 +5,8 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # Конфигурация
-SOURCE_DIR="/home/kirill/Music/Music1"
-TARGET_DIR="/home/kirill/Music/Music2"
+SOURCE_DIR="/home/user/Music/Music_Temp"
+TARGET_DIR="/home/user/Music/Music_Buffer"
 BUILD_DIR="$(pwd)/build"
 PROJECT_NAME="mp3organizer"
 CMUS_DIR="$HOME/.config/cmus"
@@ -16,6 +16,9 @@ LOG_FILE="/tmp/music_sync.log"
 # Инициализация лога
 exec > >(tee -a "$LOG_FILE") 2>&1
 echo -e "\n=== Запуск $(date) ==="
+
+# 
+sudo apt install cmake g++ libtag1-dev pkg-config
 
 # Функции
 die() {
