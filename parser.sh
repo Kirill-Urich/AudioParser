@@ -18,7 +18,7 @@ exec > >(tee -a "$LOG_FILE") 2>&1
 echo -e "\n=== Запуск $(date) ==="
 
 # 
-sudo apt install cmake g++ libtag1-dev pkg-config
+sudo apt install cmake g++ libtag1-dev pkg-config tree
 
 # Функции
 die() {
