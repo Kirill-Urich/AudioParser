@@ -6,7 +6,7 @@ std::string extractMainArtist(const std::string& artist) {
 
     std::vector<std::string> separators = { " feat ", " feat. ", " ft ",
         " ft. ", " vs ", " vs. ", " with ", ", ", " + ", " & ",
-        " vs ", " Vs ", " VS ", " vs. ", " Vs. ", " VS. "};
+        " vs ", " Vs ", " VS ", " vs. ", " Vs. ", " VS. ", "/", "\""};
     size_t min_pos = std::string::npos;
 
     for (const auto& sep : separators) {
